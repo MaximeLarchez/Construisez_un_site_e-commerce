@@ -1,20 +1,3 @@
-// ============================================================================
-// fonction permettant de trouver l'ID dans l'API sous format .Json
-
-// function getProduct(){
-//     fetch(`http://localhost:3000/api/products/${id}`)
-//     .then((result) => result.json())
-//     .then((data) => {
-
-//         console.log(data)
-//     });
-// }
-// getProduct();
-
-// console.log(getProduct)
-
-// ============================================================================
-// ============================================================================
 // RECUPERATION DE L'ID DU PRODUIT
 
 const urlId = window.location.search ;
@@ -22,8 +5,8 @@ const urlId = window.location.search ;
 const urlIdSearch = new URLSearchParams (urlId);
 
 const id = urlIdSearch.get("id");
-
 // console.log(id)
+
 
 // APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DU PRODUIT
 const getProduct = async function () {
@@ -31,9 +14,9 @@ const getProduct = async function () {
     const product = await fetchApi.json()
     return product;
 }
+
 // recuperation du produit 
 const product = await getProduct()
-
 console.log(product)
 
 
