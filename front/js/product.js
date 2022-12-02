@@ -66,10 +66,7 @@ displayProductInfos()
 
 // =============================================================================
 // ============================================================================
-
-// ==============================================================================
-// Fonction de verification apres le choix de l'utilisateur
-// Recuperation Element du DOM
+// Recuperation Element du DOM (couleur et quantité)
 const inputColor = document.getElementById("colors")
 const inputQuantity = document.getElementById("quantity")
 
@@ -84,13 +81,10 @@ const productChoice = {
 // Couleur
 
 inputColor.addEventListener('change', (event) => {
-
+    
     productChoice.color = event.target.value
     console.log(productChoice.color)
-   
-  });
-
-
+});
 // quantité
 
 inputQuantity.addEventListener('change',(event) => {
@@ -98,20 +92,6 @@ inputQuantity.addEventListener('change',(event) => {
     productChoice.quantity = event.target.value
     // console.log(productChoice)
 })
-
-// creation de div pour afficher le message derreur au dessus des labels
-// Message erreur couleur
-// const messageErrorColorContainer = document.querySelector('.item__content__settings__color')
-// const messageErrorColor = document.createElement('div')
-// messageErrorColor.textContent = 'veuillez choisir une couleur'
-// messageErrorColor.id = "message"
-// messageErrorColorContainer.appendChild(messageErrorColor)
-
-// Message erreur quantité 
-
-
-
-
 
 // Fonction pour verifier si une couleur a été selectionné
 // if color != "" alors je met la couleur dans l'objet(productchoice) else afficher un message d'erreur
@@ -136,7 +116,7 @@ function verifyColor(){
 // if quantity est comprise entre 1 et 100 = je met la couleur dans l'objet (productChoice) sinon j'affice un message d'erreur 
 const messageErrorQuantityContainer = document.querySelector('.item__content__settings__quantity')
 const messageErrorQuantity = document.createElement('div')
-console.log(messageErrorQuantityContainer)
+// console.log(messageErrorQuantityContainer)
 function verifyQuantity(){
     
     if(productChoice.quantity <= 0 || productChoice.quantity > 100){
@@ -155,31 +135,60 @@ function verifyQuantity(){
 
 // Fonction pour ajouter au panier
 // Recuperation du produit dans le localStorage || faire un tableau vide
+function getCart(){
+let localStorageProduct = JSON.parse(localStorage.getItem("produit"));
 
-function addToCart(){
-let localProduct = JSON.parse(localStorage.getItem("produit")) || []
-// verifier si le meme produit existe deja dans le panier
-
-
+    if(localStorageProduct === null){
+        localStorageProduct = []
+        console.log(localStorageProduct)
+    }
+    console.log(localStorageProduct)
 }
     
-
-
-
-
-
-
-
-// Selection du Bouton dans le html
+function addToCart(){
 const bouton = document.querySelector('#addToCart')
 
-// Ecoute sur le bouton 
+// Ecoute sur le bouton panier
+
 bouton.addEventListener("click",(e) => {
-    
-console.log(productChoice.quantity)
-    if(verifyColor() && verifyQuantity()){
-        return true
-    }else{
-        
-    }
+   e.preventDefault()
+    getCart();
 })
+}
+addToCart()
+// function addToCart(){
+// let getCart = getCart()
+// let foundProduct = localStorage.find((produit) => 
+// productChoice.id == produit.id && productChoice.color == produit.color )
+// // Si produit trouvé, incrementer le nombre d'article par rapport au choix de l'utilisateur
+// if(foundProduct != undefined){
+//     foundProduct.quantity += productChoice.quantity
+//     console.log(foundProduct.quantity)
+//     localStorage.setItem("produit", JSON.stringify(localStorageProduct))
+// //Sinon envoyes les choix de l'utilisateur au LocalStorage 
+// }else{
+//     localStorageProduct.push(productChoice)
+//     localStorage.setItem("produit", JSON.stringify(localStorageProduct))
+// }
+// }
+
+
+
+
+
+
+// // Selection du Bouton dans le html
+// const bouton = document.querySelector('#addToCart')
+
+// // Ecoute sur le bouton panier
+
+// bouton.addEventListener("click",(e) => {
+//    getCart()
+   
+// // Si couleur et quantité correct renvoie true sinon renvoie false
+//     if(verifyColor() && verifyQuantity()){
+//         return true
+//     }else{
+//         return false
+//     }
+// })
