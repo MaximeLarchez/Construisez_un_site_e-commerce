@@ -98,7 +98,8 @@ function checkBeforeAddToCart (){
         quantity: parseInt(inputQuantity.value,10),
         color: inputColor.value,
     }
-    // variable contenant les fonctions de verification de couleur et de quantité
+   
+     // variable contenant les fonctions de verification de couleur et de quantité
     const resultColor = verifyColor(productChoice)
     const resultQuantity = verifyQuantity(productChoice)
     // Si la verification couleur et quantité est bonne alors on retourne le choix de l'utilisateur
@@ -110,6 +111,7 @@ function checkBeforeAddToCart (){
     }
     
 }
+
 // Fonction pour ajouter au panier
 function getCart(productChoice){
     // Recuperation du panier dans le localStorage || cree un tableau vide
@@ -129,8 +131,14 @@ function getCart(productChoice){
      // sinon incrementé la quantité au produit deja present dans le LS
     }else{
         productFound.quantity += productChoice.quantity
-        localStorage.setItem("produit", JSON.stringify(localStorageProduct))
+        if(productFound.quantity > 100){
+            alert("Quantité limite dépassée")
+        }else{
+
         
+        localStorage.setItem("produit", JSON.stringify(localStorageProduct))
+        alert("Votre panier à été mis a jour")
+        }
     }
 }
 
