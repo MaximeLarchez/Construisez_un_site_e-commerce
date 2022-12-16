@@ -11,17 +11,18 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
     const quantité = localStorageProduct[i].quantity;
    
     
-// APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DES PRODUITS 
+    // APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DES PRODUITS 
     fetch(`http://localhost:3000/api/products/${localStorageProduct[i].id}`)
         .then((result) => result.json())
         .then((data) => {
             
             creationArticleCart(data)
-        //    console.log(data) 
+            
+            // getNumberProduct()
+        //    console.log(quantité) 
         })
-        
-// fonction qui crée l'article
-    function creationArticleCart(data){
+  
+function creationArticleCart(data){
     // console.log(data)
     // création de l'article et de ses enfants 
     const createArticleCart = document.createElement("article")
@@ -109,16 +110,86 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
     deleteItem.textContent="Supprimer"
 
    
-   
-    const calculPriceTotal = []
-        if(localStorageProduct[i].id === localStorageProduct[i].id){
-        const totalArticle = localStorageProduct[i].quantity * data.price
-
-        calculPriceTotal.push(totalArticle)
-        console.log(calculPriceTotal)
-
-      
-        }
-    }       
+    }
 }
+    //Fonction pour avoir le nombre total d'article dans le panier
+    // function getNumberProduct(){
+        
+    // const totalProduct = localStorageProduct.reduce((acc , curr) => {
+    //     acc += curr.quantity
+    //     return acc
+    // } , 0)
+
+    // totalQuantity = document.getElementById("totalQuantity") 
+    // totalQuantity.textContent = totalProduct
+
+    // // console.log(totalProduct)
+    // }
+
+
+    // creation fonction Calcul Total du prix 
+   
+    function addTotalPrice(data){
+      for(let a = 0 ;a < localStorageProduct.length; a++){
+        
+       
+      console.log(a)
+        const priceArticles = localStorageProduct[a].quantity * data.price
+        
+        const calculPriceTotal = []
+        calculPriceTotal.push(priceArticles)
+        // 1) faire avec reduce 
+        const totalPrice = calculPriceTotal.reduce((acc , curr) => {
+            acc += curr
+            return acc
+        }, 0)
+        const totalPrices = document.getElementById("totalPrice")
+        totalPrices.textContent = totalPrice
+        // console.log(totalPrice)
+        // console.log(calculPriceTotal)
+        // console.log(priceArticles)
+        
+
+
+
+        
+    }
+  }
+  
+
+       
+    
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // // creation fonction supprimer
+
+    // function suppItem(localStorageProduct){
+
+    //     const deleteProduct = document.getElementsByClassName('deleteItem')
+    //     console.log(deleteProduct)
+    //       deleteProduct.addEventlistener("click",(e) => {
+            
+    //        })
+        
+    // }
+
+
 // console.log(localStorageProduct)
+// console.log(data)
