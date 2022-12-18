@@ -3,7 +3,7 @@
 // recuperation des infos du panier dans le localStorage
 let localStorageProduct = JSON.parse(localStorage.getItem("produit"))
 
-
+let totalPrice = 0
 // Boucle qui affiche les produit tant qu'il y en a dans le LS 
 
 for(let i = 0 ; i < localStorageProduct.length ; i++){
@@ -11,35 +11,19 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
     const couleur = localStorageProduct[i].color;
     const quantité = localStorageProduct[i].quantity;
    
-    let productArray = []
+    
     // APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DES PRODUITS 
     fetch(`http://localhost:3000/api/products/${localStorageProduct[i].id}`)
         .then((result) => result.json())
         .then((data) => {
             
             creationArticleCart(data)
-            addTotalPrice(data)
-            // getNumberProduct()
-        //    console.log(quantité) 
-        productArray.push(data.price)
+         
         })
 
-        
-       
-        const getTotalPrice = (myArray) => {
-            let arrayPrice = 0
-            for (let i = 0; i < myArray.length; i++){
-                arrayPrice = arrayPrice + myArray[i]
-                
-            }
-            return arrayPrice
-        }
-        
-        let totalPrice = getTotalPrice(productArray)
-        console.log(totalPrice)
-
-    function creationArticleCart(data){
+        function creationArticleCart(data){
         // console.log(data)
+
         // création de l'article et de ses enfants 
         const createArticleCart = document.createElement("article")
         const cart__item__img = document.createElement("div")
@@ -100,7 +84,10 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
 
         // P prix du produit
         priceOfProduct.textContent ="Prix: " + data.price * quantité + "€"
-
+        
+        let productPrice = data.price * quantité 
+        totalPrice = totalPrice + productPrice
+       
         // Div cart__item__content__settings
         cart__item__content__settings.className ="cart__item__content__settings"
 
@@ -125,33 +112,14 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
         deleteItem.className = "deleteItem"
         deleteItem.textContent="Supprimer"
 
-      
+      // Prix total du panier 
+
+        const priceTotalElement = document.querySelector("#totalPrice")
+        priceTotalElement.textContent = totalPrice
+
+        // quantité total de produit dans le panier 
+
+        
     }
     
 }
-
-
-//    console.log(await getTotalPrice(productArray)) 
-   
- 
-
-
-    // creation fonction Calcul Total du prix 
-   
-function addTotalPrice(data){
-    for(let a = 0 ;a < localStorageProduct.length; a++){
-    //   console.log(a)
-        const priceArticles = localStorageProduct[a].quantity * data.price
-        
-        const calculPriceTotal = []
-        calculPriceTotal.push(priceArticles)
-        // 1) faire avec reduce 
-        const totalPrice = calculPriceTotal.reduce((acc , curr) => {
-            acc += curr
-            return acc
-        }, 0)
-        const totalPrices = document.getElementById("totalPrice")
-        totalPrices.textContent = totalPrice
-    }
-}
-  
