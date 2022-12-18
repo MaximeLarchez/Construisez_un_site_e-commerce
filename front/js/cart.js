@@ -2,15 +2,15 @@
 
 // recuperation des infos du panier dans le localStorage
 let localStorageProduct = JSON.parse(localStorage.getItem("produit"))
-
-let totalPrice = 0
+let totalQuantity = 0
+let totalPrice = 0  
 // Boucle qui affiche les produit tant qu'il y en a dans le LS 
 
 for(let i = 0 ; i < localStorageProduct.length ; i++){
     // console.log(localStorageProduct[i])
     const couleur = localStorageProduct[i].color;
     const quantité = localStorageProduct[i].quantity;
-   
+//    console.log(quantité)
     
     // APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DES PRODUITS 
     fetch(`http://localhost:3000/api/products/${localStorageProduct[i].id}`)
@@ -119,7 +119,11 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
 
         // quantité total de produit dans le panier 
 
-        
+        const quantityTotalElement = document.querySelector("#totalQuantity")
+        totalQuantity = totalQuantity + quantité
+        // console.log(totalQuantity)
+        quantityTotalElement.textContent = totalQuantity
+
     }
     
 }
