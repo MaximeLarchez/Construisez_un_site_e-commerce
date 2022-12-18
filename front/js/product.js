@@ -127,7 +127,7 @@ function getCart(productChoice){
     if(!localStorageProduct.length || !productFound){
         localStorageProduct.push(productChoice)
         localStorage.setItem("produit", JSON.stringify(localStorageProduct))
-       
+        alert("Votre panier à été mis a jour")
      // sinon incrementé la quantité au produit deja present dans le LS
     }else{
         productFound.quantity += productChoice.quantity
