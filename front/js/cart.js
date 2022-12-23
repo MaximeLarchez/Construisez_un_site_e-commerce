@@ -4,12 +4,14 @@
 let localStorageProduct = JSON.parse(localStorage.getItem("produit"))
 let totalQuantity = 0
 let totalPrice = 0  
+let arrayDelete = []
+
 // Boucle qui affiche les produit tant qu'il y en a dans le LS 
 
 for(let i = 0 ; i < localStorageProduct.length ; i++){
     // console.log(localStorageProduct[i])
-    const couleur = localStorageProduct[i].color;
-    const quantité = localStorageProduct[i].quantity;
+    let couleur = localStorageProduct[i].color;
+    let quantité = localStorageProduct[i].quantity;
 //    console.log(quantité)
     
     // APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DES PRODUITS 
@@ -18,10 +20,10 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
         .then((data) => {
             
             creationArticleCart(data)
-         
+            
         })
-
-        function creationArticleCart(data){
+        
+    function creationArticleCart(data){
         // console.log(data)
 
         // création de l'article et de ses enfants 
@@ -62,7 +64,7 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
         createArticleCart.className = "cart__item"
         createArticleCart.dataset.id = data._id
         createArticleCart.dataset.color = couleur
-
+        // console.log(createArticleCart)
         // Div cart__item__img
         cart__item__img.className = "cart__item__img"
 
@@ -84,7 +86,6 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
 
         // P prix du produit
         priceOfProduct.textContent ="Prix: " + data.price * quantité + "€"
-        
         let productPrice = data.price * quantité 
         totalPrice = totalPrice + productPrice
        
@@ -104,26 +105,67 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
         itemQuantity.min = 1
         itemQuantity.max = 100
         itemQuantity.value = quantité
+        // itemQuantity.readOnly = true
+
+        itemQuantity.addEventListener('change' , (e) => {
+            
+            if(localStorageProduct[i].quantity < itemQuantity.value ){
+                localStorageProduct[i].quantity ++
+                console.log(localStorageProduct[i].quantity)
+                localStorage.setItem("produit", JSON.stringify(localStorageProduct))
+                location.reload();
+            
+            }else{
                 
+                localStorageProduct[i].quantity --
+                console.log(localStorageProduct[i].quantity)
+                localStorage.setItem("produit", JSON.stringify(localStorageProduct))
+                location.reload();
+            }
+
+        })
+        // console.log(quantité)
         // Div cart__item__content__settings__delete
         cart__item__content__settings__delete.className = "cart__item__content__settings__delete"
 
-        // P deleteItem
-        deleteItem.className = "deleteItem"
-        deleteItem.textContent="Supprimer"
+        
 
       // Prix total du panier 
-
         const priceTotalElement = document.querySelector("#totalPrice")
         priceTotalElement.textContent = totalPrice
 
         // quantité total de produit dans le panier 
-
         const quantityTotalElement = document.querySelector("#totalQuantity")
         totalQuantity = totalQuantity + quantité
-        // console.log(totalQuantity)
         quantityTotalElement.textContent = totalQuantity
 
-    }
-    
+     
+        // Suppression d'un produit depuis la page panier
+        deleteItem.className = "deleteItem"
+        deleteItem.textContent="Supprimer"
+        arrayDelete.push(localStorageProduct[i].quantity)
+        // console.log(arrayDelete)
+
+        deleteItem.addEventListener('click', (e) => {
+           
+            const productSuppInfo = createArticleCart.dataset
+            const arrayProductSuppInfo = []
+            arrayProductSuppInfo.push(productSuppInfo.id , productSuppInfo.color)
+            
+            const productSelect = localStorageProduct[i]
+            const arrayProductSelect = []
+            arrayProductSelect.push(productSelect.id , productSelect.color)
+            
+            
+            if(arrayProductSuppInfo && arrayProductSelect){
+                const productSupp =  localStorageProduct.filter(el => (el.id + el.color) !== (productSuppInfo.id + productSuppInfo.color))
+                localStorage.setItem("produit", JSON.stringify(productSupp))
+                location.reload();
+                
+                console.log(productSupp)
+            
+            }
+        })
+    }    
 }
+
