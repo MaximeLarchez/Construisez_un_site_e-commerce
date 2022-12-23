@@ -146,76 +146,26 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
         arrayDelete.push(localStorageProduct[i].quantity)
         // console.log(arrayDelete)
 
-        // deleteItem.addEventListener('click', (e) => {
+        deleteItem.addEventListener('click', (e) => {
            
+            const productSuppInfo = createArticleCart.dataset
+            const arrayProductSuppInfo = []
+            arrayProductSuppInfo.push(productSuppInfo.id , productSuppInfo.color)
             
-        
-        // localStorageProduct[i]
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //     // const productSuppInfo = createArticleCart.dataset
-        //     // const arrayProductSuppInfo = []
-        //     // arrayProductSuppInfo.push(productSuppInfo.id , productSuppInfo.color)
-            
-        //     // const productSelect = localStorageProduct[i]
-        //     // const arrayProductSelect = []
-        //     // arrayProductSelect.push(productSelect.id , productSelect.color)
+            const productSelect = localStorageProduct[i]
+            const arrayProductSelect = []
+            arrayProductSelect.push(productSelect.id , productSelect.color)
             
             
-        //     // if(arrayProductSuppInfo && arrayProductSelect){
-        //     //     const productSupp =  localStorageProduct.filter(el => (el.id && el.color) !== (productSuppInfo.id && productSuppInfo.color))
+            if(arrayProductSuppInfo && arrayProductSelect){
+                const productSupp =  localStorageProduct.filter(el => (el.id + el.color) !== (productSuppInfo.id + productSuppInfo.color))
+                localStorage.setItem("produit", JSON.stringify(productSupp))
+                location.reload();
                 
-        //     //   console.log(arrayProductSelect)
-        //     //   console.log(arrayProductSuppInfo)
-        //     //   console.log(productSupp)
-        //     // //   console.log(localStorage)
-        //     // }
+                console.log(productSupp)
             
-        //     // // Methode filter pour selectionner l'element a supprimer dans le localstorage
-        //     // let productSuppId = localStorageProduct.filter(el => el.id !== idSelectSupp)
-        //     // let ProductSuppColor = localStorageProduct.filter(el => el.color !== colorSelectSupp)
-            
-            
-    
-
-
-
-        //     // // Envoi des information au LocalStorage
-        //     // localStorage.setItem("produit", JSON.stringify(localStorageProduct))
-
-           
-
-        // })
-       
-    deleteProduct()
+            }
+        })
     }    
-
-  
-}
-function deleteProduct(){
-    const buttonSupp = document.querySelectorAll(".deleteItem");
-console.log(buttonSupp)
-
-for(let b = 0 ; b < buttonSupp.length; b++){
-    console.log(b)
-    
-    
-    // buttonSupp.addEventListener("click" , () => {
-    //     localStorageProduct.splice(b , 1)
-    //     localStorage.setItem("produit", JSON.stringify(localStorageProduct))
-    //     location.reload();
-    // })
 }
 
-}
