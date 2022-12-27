@@ -174,36 +174,36 @@ for(let i = 0 ; i < localStorageProduct.length ; i++){
 const form = document.querySelector('.cart__order__form')
 
 // creation regexp pour n'avoir que des lettres au niveau de l'input prénom 
-function firstNameInput(){
+function firstNameCheck(){
     // recuperation de l'element qui affichera le commentaire si la saisie est correct ou non , puis creation de la Regexp
-    const firstNameErrorMsg = document.querySelector('#firstNameErrorMsg')
+    const firstNameMsg = document.querySelector('#firstNameErrorMsg')
     const firstNameRegExp = new RegExp(
         /^[A-Za-zéèàùûêâôë-]+[a-zéèàùûêâôë-]$/
     )
     // recuperation de la valeur saisie par l'utilisateur sur l'input firstName
     const testRegFirstName = firstNameRegExp.test(firstName.value)
-    console.log(testRegFirstName)
+    // console.log(testRegFirstName)
     // si valeur retourne est vrai afficher que la saisie est correct sinon indique une mauvaise saisie 
     if(testRegFirstName){
-        firstNameErrorMsg.innerHTML = 'Saisie Correct'
+        firstNameMsg.innerHTML = 'Saisie Correct'
         firstName.style.backgroundColor = "green"
     }else{
-        firstNameErrorMsg.innerHTML = 'Mauvaise Saisie'
+        firstNameMsg.innerHTML = 'Mauvaise Saisie'
         firstName.style.backgroundColor = "red"
     }
 
 }
-
 // ecoute au changement de l'input prenom avec l'appel de la fonction firstNameInput
 const firstName = form.firstName
 firstName.addEventListener('change', (e) => {
-   firstNameInput()
+   firstNameCheck()
 })
 // console.log(firstName)
 
-// creation regexp pour n'avoir que des lettres 
-function lastNameInput(){
-    const lastNameErrorMsg = document.querySelector('#lastNameErrorMsg')
+
+// creation regexp pour n'avoir que des lettres dans l'input LastName
+function lastNameCheck(){
+    const lastNameMsg = document.querySelector('#lastNameErrorMsg')
     const lastNameRegExp = new RegExp(
         /^[A-Za-zéèàùûêâôë-]+[a-zéèàùûêâôë-]$/
     )
@@ -212,49 +212,52 @@ function lastNameInput(){
     console.log(testRegLastName)
     // si valeur retourne est vrai afficher que la saisie est correct sinon indique une mauvaise saisie 
     if(testRegLastName){
-        lastNameErrorMsg.innerHTML = 'Saisie Correct'
+        lastNameMsg.innerHTML = 'Saisie Correct'
         lastName.style.backgroundColor = "green"
     }else{
-        lastNameErrorMsg.innerHTML = 'Mauvaise Saisie'
+        lastNameMsg.innerHTML = 'Mauvaise Saisie'
         lastName.style.backgroundColor = "red"
     }
 }
-// ecoute au changement de l'input nom
+// Selection de l'input
 const lastName = form.lastName
 // au changement de valeur de l'input LastName,  appel de la fonction lastNameInput
 lastName.addEventListener('change', (e) => {
-    lastNameInput()
+    lastNameCheck()
 })
 // console.log(lastName)
 
 
 
 
-
-
-
-
-
-
-
 // creation de regExp pour l'input adresse
-function adressInput(){
-const addressRegExp = new RegExp(
-    /^[0-9]+[\s]+[A-Za-zéèàùûêâôë]/ 
-)
-const testRegAddress = addressRegExp.test(address.value)
+function addressCheck(){
+    const addressErrorMsg = document.querySelector('#addressErrorMsg')
+    const addressRegExp = new RegExp(
+        /^[0-9]+[\s]+[A-Za-zéèàùûêâôë]/ 
+    )
+    const testRegAddress = addressRegExp.test(address.value)
     console.log(testRegAddress)
-}
 
+    if(testRegAddress){
+        addressErrorMsg.innerHTML = 'Saisie Correct'
+        address.style.backgroundColor = "green"
+    }else{
+        addressErrorMsg.innerHTML = 'Mauvaise Saisie'
+        address.style.backgroundColor = "red"
+    }
+
+}
 // ecoute au changement de l'input adresse
 const address = form.address
 address.addEventListener('change' , (e) => {
-    adressInput()
+    addressCheck()
 })
+
 
 // creation Regexp pour l'input ville 
 
-function cityInput(){
+function cityCheck(){
     const cityRegExp = new RegExp(
         /^[A-Za-zéèàùûêâôë]+[a-zéèàùûêâôë]/
     )
@@ -265,5 +268,5 @@ function cityInput(){
 // ecoute au changement de l'input city
 const city = form.city
 city.addEventListener('change' , (e) => {
-    cityInput()
+    cityCheck()
 })
