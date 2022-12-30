@@ -185,18 +185,24 @@ function firstNameCheck(){
     // console.log(testRegFirstName)
     // si valeur retourne est vrai afficher que la saisie est correct sinon indique une mauvaise saisie 
     if(testRegFirstName){
-        firstNameMsg.innerHTML = 'Saisie Correct'
+        firstNameMsg.textContent = 'Saisie Correct'
         firstName.style.backgroundColor = "green"
     }else{
-        firstNameMsg.innerHTML = 'Mauvaise Saisie'
+        firstNameMsg.textContent = 'Mauvaise Saisie'
         firstName.style.backgroundColor = "red"
     }
-
+    // reload();
 }
 // ecoute au changement de l'input prenom avec l'appel de la fonction firstNameInput
 const firstName = form.firstName
 firstName.addEventListener('change', (e) => {
    firstNameCheck()
+//    const valueFirstName = firstName.value
+//    localStorage.setItem("InfoUser",JSON.stringify(valueFirstName))
+//    location.reload();
+   
+//    console.log(valueFirstName)
+   
 })
 // console.log(firstName)
 
@@ -212,61 +218,173 @@ function lastNameCheck(){
     console.log(testRegLastName)
     // si valeur retourne est vrai afficher que la saisie est correct sinon indique une mauvaise saisie 
     if(testRegLastName){
-        lastNameMsg.innerHTML = 'Saisie Correct'
+        lastNameMsg.textContent = 'Saisie Correct'
         lastName.style.backgroundColor = "green"
     }else{
-        lastNameMsg.innerHTML = 'Mauvaise Saisie'
+        lastNameMsg.textContent = 'Mauvaise Saisie'
         lastName.style.backgroundColor = "red"
     }
+    // reload();
 }
 // Selection de l'input
 const lastName = form.lastName
 // au changement de valeur de l'input LastName,  appel de la fonction lastNameInput
 lastName.addEventListener('change', (e) => {
     lastNameCheck()
+    // const valueLastName = lastName.value
+    // location.reload();
+    // localStorage.setItem("InfoUser",JSON.stringify(valueLastName))
 })
-// console.log(lastName)
+
 
 
 
 
 // creation de regExp pour l'input adresse
 function addressCheck(){
-    const addressErrorMsg = document.querySelector('#addressErrorMsg')
+    const addressMsg = document.querySelector('#addressErrorMsg')
     const addressRegExp = new RegExp(
-        /^[0-9]+[\s]+[A-Za-zéèàùûêâôë]/ 
+        // /^[0-9a-z]+[\s]+[A-Za-zéèàùûêâôë]//*+[A-Za-zéèàùûêâôë]/ */
+        /^[\d]+([A-Za-z]|[\s]+[A-Za-z])+[A-Za-zéèàùûêâôë]/
     )
     const testRegAddress = addressRegExp.test(address.value)
-    console.log(testRegAddress)
+    // console.log(testRegAddress)
 
     if(testRegAddress){
-        addressErrorMsg.innerHTML = 'Saisie Correct'
+        addressMsg.textContent = 'Saisie Correct'
         address.style.backgroundColor = "green"
     }else{
-        addressErrorMsg.innerHTML = 'Mauvaise Saisie'
+        addressMsg.textContent = 'Mauvaise Saisie'
         address.style.backgroundColor = "red"
     }
-
+    // reload();
 }
 // ecoute au changement de l'input adresse
 const address = form.address
 address.addEventListener('change' , (e) => {
     addressCheck()
+    // const valueAddress = address.value
+    // location.reload();
+    // console.log(valueAddress)
+    // localStorage.setItem("InfoUser",JSON.stringify(valueAddress))
 })
 
 
 // creation Regexp pour l'input ville 
-
 function cityCheck(){
+    const cityMsg = document.querySelector('#cityErrorMsg')
     const cityRegExp = new RegExp(
         /^[A-Za-zéèàùûêâôë]+[a-zéèàùûêâôë]/
     )
     const testRegcity = cityRegExp.test(city.value)
     console.log(testRegcity)
-}
 
+    if(testRegcity){
+        cityMsg.textContent = 'Saisie Correct'
+        city.style.backgroundColor = "green"
+    }else{
+        cityMsg.textContent = 'Mauvaise Saisie'
+        city.style.backgroundColor = "red"
+    }
+    // reload();
+}
 // ecoute au changement de l'input city
 const city = form.city
 city.addEventListener('change' , (e) => {
     cityCheck()
+    // const valueCity = city.value
+    // location.reload();
+    // console.log(valueCity)
+    // localStorage.setItem("InfoUser",JSON.stringify(valueCity))
+})
+
+// creation de regExp pour l'input Email
+function emailCheck(){
+    const emailMsg = document.querySelector('#emailErrorMsg')
+    const emailRegExp = new RegExp(
+        // /^[0-9]+[\s]+[A-Za-zéèàùûêâôë]+[\s]//*+[A-Za-zéèàùûêâôë]/ */
+        /^([A-Za-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+    )
+    const testRegEmail = emailRegExp.test(email.value)
+    console.log(testRegEmail)
+    
+    if(testRegEmail){
+        emailMsg.textContent = 'Saisie Correct'
+        email.style.backgroundColor = "green"
+    }else{
+        emailMsg.textContent = 'Mauvaise Saisie'
+        email.style.backgroundColor = "red"
+    }
+    // location.reload();
+}
+// ecoute au changement de l'input email
+const email = form.email
+email.addEventListener('change' , (e) => {
+    emailCheck()
+    // const valueEmail = email.value
+    // location.reload();
+    // localStorage.setItem("InfoUser",JSON.stringify(infoUserLs.email))
+    // console.log(valueEmail)
+    
+})
+
+
+
+// console.log(infoUserLs.firstName)
+
+// recuperation de l'élément bouton pour commander 
+const ButtonCommand = document.querySelector("#order")
+ButtonCommand.addEventListener('click', (e) => {
+
+    const infoUser = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        address: address.value,
+        city: city.value,
+        email: email.value,
+    }
+    const arrayProduct = []
+    for(let i = 0; i < localStorageProduct.length ; i++){
+        arrayProduct.push(localStorageProduct[i])
+    }
+console.log(arrayProduct)
+
+const infoGlobal = {
+    arrayProduct , infoUser
+}
+   
+    console.log(infoGlobal)
+
+
+
+fetch("http://localhost:3000/api/products/order",
+{
+    mode:"no-cors",
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: "POST",
+    body: JSON.stringify(infoGlobal)
+})
+.then((result) => result.json())
+.then((data) =>{
+    window.location.href = `confirmation.html?=${data.orderId}`
+console.log(data)
+})
+
+// fetch('http://localhost:3000/api/products', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(infoGlobal),
+// })
+//   .then((response) => response.json())
+//   .then((data) => {
+//     console.log('Success:', data);
+//   })
+//   .catch((error) => {
+//     console.error('Error:', error);
+//   });
 })
