@@ -1,8 +1,8 @@
 // RECUPERATION DE L'ID DU PRODUIT
-
 const urlId = window.location.search ;
 const urlIdSearch = new URLSearchParams (urlId);
 const productId = urlIdSearch.get("id");
+// console.log(urlIdSearch)
 
 // APPEL DE L'API POUR RECUPERE L'ENSEMBLE DES INFOS DU PRODUIT
 const getProduct = async function () {
@@ -13,7 +13,6 @@ const getProduct = async function () {
 
 // recuperation du produit 
 const product = await getProduct()
-
 // console.log(productId)
 
 // INTEGRATION DES INFORMATIONS DU PRODUIT
