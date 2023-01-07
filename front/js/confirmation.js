@@ -12,10 +12,3 @@ const orderId = orderIdSearch.get("orderid")
 const orderIdSelector = document.querySelector('#orderId')
 orderIdSelector.textContent = orderId
 alert('Nous vous remercions de votre commande')
-
-
-
-
-
-
-
